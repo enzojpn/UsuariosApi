@@ -33,6 +33,7 @@ namespace UsuarioApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
             services.AddScoped<CadastroService, CadastroService>();
+            services.AddScoped<LoginService, LoginService>();
             services.AddDbContext<UserDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("UsuarioConnection"))
             );
