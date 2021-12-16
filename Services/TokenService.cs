@@ -23,7 +23,7 @@ namespace UsuarioApi.Services
              };
 
             var chave = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("4aasf1casdfg67dfgsg6sdfsdg6fsgsd6sdfsd7099fgxxvbjmmui"));
+                Encoding.UTF8.GetBytes("4aasf1casdfg67dfgsg6sdfsdg6fsgs9fgxxvbjmmui"));
 
             var credenciais = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
 
@@ -33,8 +33,8 @@ namespace UsuarioApi.Services
                 expires: DateTime.UtcNow.AddHours(1)
                 );
 
-            var tokeString = new JwtSecurityTokenHandler().WriteToken(token);
-            return new Token(tokeString);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return new Token(tokenString);
             
         }
     }

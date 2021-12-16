@@ -9,7 +9,7 @@ namespace UsuarioApi.Models
     {
         public Token(string value)
         {
-            Value = Value;
+            Value = value;
         }
         public string Value { get; }
 

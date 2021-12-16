@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UsuarioApi.Data.Requests;
+using UsuarioApi.Models;
 
 namespace UsuarioApi.Services
 {
@@ -13,16 +14,26 @@ namespace UsuarioApi.Services
 
         private SignInManager<IdentityUser<int>> _signInManager;
 
-        public LoginService(SignInManager<IdentityUser<int>> signInManager)
+        private TokenService _tokenService;
+
+        public LoginService(SignInManager<IdentityUser<int>> signInManager, TokenService tokenService)
         {
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
-        internal Result LogaUsuario(LoginRequest request)
+        internal Token LogaUsuario(LoginRequest request)
         {
             var resultIdentity = _signInManager.PasswordSignInAsync(request.Username, request.Password, false, false);
-            if (resultIdentity.Result.Succeeded) return Result.Ok();
-            return Result.Fail("Login Falhou");
+            if (resultIdentity.Result.Succeeded)
+            {
+               var identityUser =  _signInManager.UserManager.Users.FirstOrDefault(usuario => usuario.NormalizedUserName == request.Username.ToUpper());
+                Token token = _tokenService.CreateToken(identityUser);
+                 
+                return token  ;
+            }
+
+            return null;
         }
     }
 }
