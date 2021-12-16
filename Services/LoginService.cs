@@ -28,9 +28,8 @@ namespace UsuarioApi.Services
             if (resultIdentity.Result.Succeeded)
             {
                var identityUser =  _signInManager.UserManager.Users.FirstOrDefault(usuario => usuario.NormalizedUserName == request.Username.ToUpper());
-                Token token = _tokenService.CreateToken(identityUser);
-                 
-                return token  ;
+                Token token = _tokenService.CreateToken(identityUser); 
+                return token;
             }
 
             return null;

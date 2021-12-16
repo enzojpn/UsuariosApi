@@ -30,7 +30,7 @@ namespace UsuarioApi.Controllers
            Token token =  _loginService.LogaUsuario(request);
              
             if (token == null) return Unauthorized();
-         
+            
             return Ok(token.Value);
 
         }
