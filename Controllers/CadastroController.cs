@@ -24,9 +24,9 @@ namespace UsuarioApi.Controllers
         public IActionResult CadastroUsuario(CreateUsuarioDto createDto)
         {
 
-           Result result =  _cadastroService.CadastroUsuario(createDto);
-            if (result.IsFailed) return StatusCode(500);
-            return Ok();
+            string result = _cadastroService.CadastroUsuario(createDto);
+            if (string.IsNullOrWhiteSpace(result)) return StatusCode(500);
+            return Ok(result);
         }
     }
 }

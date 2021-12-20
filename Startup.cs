@@ -43,7 +43,8 @@ namespace UsuarioApi
 
             services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
                 opt => opt.SignIn.RequireConfirmedEmail = true
-            ).AddEntityFrameworkStores<UserDbContext>();
+            ).AddEntityFrameworkStores<UserDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddSwaggerGen(c =>
             {
