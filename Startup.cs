@@ -41,7 +41,9 @@ namespace UsuarioApi
                 options.UseMySQL(Configuration.GetConnectionString("UsuarioConnection"))
             );
 
-            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddEntityFrameworkStores<UserDbContext>();
+            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+                opt => opt.SignIn.RequireConfirmedEmail = true
+            ).AddEntityFrameworkStores<UserDbContext>();
 
             services.AddSwaggerGen(c =>
             {
