@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using UsuarioApi.Data.Dtos;
 using UsuarioApi.Data.Requests;
 using UsuarioApi.Models;
@@ -18,10 +19,13 @@ namespace UsuarioApi.Services
 
         private UserManager<IdentityUser<int>> _userManager;
 
-        public CadastroService(IMapper mapper, UserManager<IdentityUser<int>> userManager)
+        private EmailService _emailService;
+
+        public CadastroService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _emailService = emailService;
         }
         public string CadastroUsuario(CreateUsuarioDto createDto)
         {
@@ -31,8 +35,11 @@ namespace UsuarioApi.Services
 
             if (resultadoIdentity.Result.Succeeded)
             {
-                var code = _userManager.GenerateEmailConfirmationTokenAsync(usuarioIdentity);
-                return code.Result;
+
+                var code = _userManager.GenerateEmailConfirmationTokenAsync(usuarioIdentity).Result;
+                var encodedCode = HttpUtility.UrlEncode(code);
+                    _emailService.EnviarEmail(new[] { usuarioIdentity.Email }, "Link de ativação", usuarioIdentity.Id, encodedCode);
+                return code;
             }
             return "Falha ao criar Usuario";
         }
